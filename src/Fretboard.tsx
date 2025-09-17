@@ -16,9 +16,9 @@ const Fretboard: React.FC<FretboardProps> = ({ selection }) => {
   const [selectedChord, setSelectedChord] = useState<string>('I');
 
   useEffect(() => {
-    // Reset selected chord when the key changes
-    setSelectedChord('I');
-  }, [selection]);
+    const defaultChord = selection.type === 'major' ? 'I' : 'i';
+    setSelectedChord(defaultChord);
+  }, [selection, fretboardView]);
 
   const getNote = (stringIndex: number, fret: number) => {
     const openStringNoteIndex = NOTES.indexOf(TUNING[stringIndex]);
@@ -43,6 +43,7 @@ const Fretboard: React.FC<FretboardProps> = ({ selection }) => {
   };
 
   const notesToDisplay = getNotesToDisplay();
+  const rootNoteName = keyData[selection.key].notes[selection.type][0];
   
   const getTitle = () => {
     switch (fretboardView) {
@@ -86,7 +87,6 @@ const Fretboard: React.FC<FretboardProps> = ({ selection }) => {
             {Array.from(Array(NUM_FRETS + 1).keys()).map(fret => {
               const note = getNote(5 - stringIndex, fret);
               const isNoteInScale = notesToDisplay.includes(note);
-              const rootNoteName = selection.type === 'major' ? keyData[selection.key].major : keyData[selection.key].minor.slice(0, -1);
               const isRoot = isNoteInScale && note === rootNoteName;
 
               return (
