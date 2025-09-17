@@ -1,0 +1,23 @@
+.chord-placeholder {
+  width: 100px;
+  height: 120px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.chord-placeholder .chord-name {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.chord-placeholder .not-available {
+  font-size: 12px;
+}
+
+.chord-diagram-wrapper {
+    width: 100px;
+}

@@ -1,0 +1,35 @@
+.key-segment {
+  cursor: pointer;
+  transition: fill 0.2s ease-in-out;
+}
+
+.key-segment path {
+  fill: #f8f9fa;
+  stroke: #ccc;
+  stroke-width: 2;
+}
+
+.key-segment:hover path {
+  fill: #e9ecef;
+}
+
+.key-segment.selected path {
+  fill: #0d6efd;
+}
+
+.key-segment text {
+  font-family: sans-serif;
+  font-size: 18px;
+  fill: #212529;
+  pointer-events: none;
+}
+
+.key-segment.selected .major-key,
+.key-segment.selected .minor-key {
+  fill: white;
+  font-weight: bold;
+}
+
+.minor-key {
+  font-size: 14px;
+}
