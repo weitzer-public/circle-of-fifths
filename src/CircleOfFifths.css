@@ -4,9 +4,9 @@
 }
 
 .key-segment path {
-  fill: #f8f9fa;
   stroke: #ccc;
   stroke-width: 2;
+  fill: #f8f9fa; /* Default fill */
 }
 
 .key-segment:hover path {
@@ -19,17 +19,19 @@
 
 .key-segment text {
   font-family: sans-serif;
-  font-size: 18px;
-  fill: #212529;
   pointer-events: none;
+  fill: #212529;
 }
 
-.key-segment.selected .major-key,
-.key-segment.selected .minor-key {
-  fill: white;
+.major-key {
+  font-size: 18px;
   font-weight: bold;
 }
 
 .minor-key {
-  font-size: 14px;
+  font-size: 16px;
+}
+
+.key-segment.selected text {
+  fill: white;
 }

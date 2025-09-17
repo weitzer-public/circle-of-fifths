@@ -41,3 +41,14 @@
 .note.root {
   background-color: #dc3545; /* Red for root note */
 }
+
+.fret-label {
+    position: absolute;
+    bottom: -20px;
+    color: #6c757d;
+    font-size: 12px;
+}
+
+.view-switcher {
+    margin-bottom: 15px;
+}

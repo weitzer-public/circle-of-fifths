@@ -6,12 +6,19 @@ import Fretboard from './Fretboard';
 import ChordDiagram from './ChordDiagram';
 import { keyData } from './data';
 
-function App() {
-  const [selectedKey, setSelectedKey] = useState('C');
+export type Selection = {
+  key: string;
+  type: 'major' | 'minor';
+}
 
-  const handleKeySelect = (keyName: string) => {
-    setSelectedKey(keyName);
+function App() {
+  const [selection, setSelection] = useState<Selection>({ key: 'C', type: 'major' });
+
+  const handleKeySelect = (key: string, type: 'major' | 'minor') => {
+    setSelection({ key, type });
   };
+
+  const chords = keyData[selection.key].chords[selection.type];
 
   return (
     <div className="container">
@@ -21,16 +28,16 @@ function App() {
       </div>
       <div className="row">
         <div className="col-md-6">
-          <CircleOfFifths onKeySelect={handleKeySelect} selectedKey={selectedKey} />
+          <CircleOfFifths onKeySelect={handleKeySelect} selection={selection} />
         </div>
         <div className="col-md-6">
-          <KeyInfo selectedKey={selectedKey} />
+          <KeyInfo selection={selection} />
           <hr />
-          <Fretboard selectedKey={selectedKey} />
+          <Fretboard selection={selection} />
           <hr />
           <h4>Chords in Key</h4>
           <div className="d-flex justify-content-around flex-wrap">
-            {Object.entries(keyData[selectedKey].chords).map(([roman, chord]) => (
+            {Object.entries(chords).map(([roman, chord]) => (
               <div key={roman} className="text-center m-2">
                 <strong>{roman}</strong>
                 <ChordDiagram chordName={chord} />
