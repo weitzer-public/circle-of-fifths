@@ -28,7 +28,7 @@ function App() {
 
   return (
     <div>
-      <div style={{ padding: '1rem', textAlign: 'right' }}>
+      <div className="toggle-ui-container">
         <button className="btn btn-primary" onClick={toggleUI}>
           {showEnhancedUI ? 'Show Original UI' : 'Show Enhanced UI'}
         </button>

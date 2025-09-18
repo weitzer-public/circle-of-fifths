@@ -3,12 +3,9 @@ import socketserver
 import os
 
 PORT = 8080
-# The script is in music-theory-app, and we want to serve the ui-recommendations directory
-# which is also in music-theory-app.
-# The CWD will be the project root /home/benweitzer/music-theory/
-# So we need to change to the music-theory-app directory first.
-os.chdir('music-theory-app')
-DIRECTORY = "ui-recommendations"
+# Get the directory of the script
+script_dir = os.path.dirname(os.path.abspath(__file__))
+DIRECTORY = os.path.join(script_dir, "ui-recommendations")
 
 class Handler(http.server.SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):

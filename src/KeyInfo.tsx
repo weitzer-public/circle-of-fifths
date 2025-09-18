@@ -31,7 +31,7 @@ const KeyInfo: React.FC<KeyInfoProps> = ({ selection }) => {
         <p className="fs-5">
           {Object.entries(chords).map(([roman, chord], index, arr) => (
             <span key={roman}>
-              <strong>{roman}:</strong> {chord as string}{index < arr.length - 1 ? ', ' : ''}
+              <strong>{roman}:</strong> {chord}{index < arr.length - 1 ? ', ' : ''}
             </span>
           ))}
         </p>
