@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { keyData } from './data';
 import { chordData } from './chord-data';
-import { TUNING, NOTES, NUM_FRETS } from './constants';
+import { NOTES, NUM_FRETS } from './constants';
 import { Selection } from './App';
 import './Fretboard.css';
+import { playNote } from './audio';
 
 interface FretboardProps {
   selection: Selection;
 }
 
 type FretboardView = 'scale' | 'pentatonic' | 'chord';
+
+const TUNING_WITH_OCTAVES = ['E4', 'B3', 'G3', 'D3', 'A2', 'E2'];
 
 const Fretboard: React.FC<FretboardProps> = ({ selection }) => {
   const [fretboardView, setFretboardView] = useState<FretboardView>('scale');
@@ -20,11 +23,21 @@ const Fretboard: React.FC<FretboardProps> = ({ selection }) => {
     setSelectedChord(defaultChord);
   }, [selection, fretboardView]);
 
-  const getNote = (stringIndex: number, fret: number) => {
-    const openStringNoteIndex = NOTES.indexOf(TUNING[stringIndex]);
-    const noteIndex = (openStringNoteIndex + fret) % 12;
-    return NOTES[noteIndex];
+  const getNoteWithOctave = (stringIndex: number, fret: number) => {
+    const openString = TUNING_WITH_OCTAVES[stringIndex];
+    const openStringName = openString.slice(0, -1);
+    const openStringOctave = parseInt(openString.slice(-1));
+    const openStringNoteIndex = NOTES.indexOf(openStringName);
+    
+    const noteIndex = openStringNoteIndex + fret;
+    const noteName = NOTES[noteIndex % 12];
+    const octave = openStringOctave + Math.floor(noteIndex / 12);
+    return `${noteName}${octave}`;
   };
+
+  const getNoteName = (noteWithOctave: string) => {
+    return noteWithOctave.slice(0, -1);
+  }
 
   const diatonicChords = keyData[selection.key].chords[selection.type];
   const chordName = diatonicChords[selectedChord as keyof typeof diatonicChords];
@@ -60,6 +73,10 @@ const Fretboard: React.FC<FretboardProps> = ({ selection }) => {
   const title = getTitle();
   const fretLabelPoints = [3, 5, 7, 9, 12];
 
+  const handleNoteClick = (note: string) => {
+    playNote(note);
+  };
+
   return (
     <div>
       <div className="d-flex justify-content-between align-items-center">
@@ -82,21 +99,22 @@ const Fretboard: React.FC<FretboardProps> = ({ selection }) => {
       )}
 
       <div className="fretboard">
-        {TUNING.slice().reverse().map((stringName, stringIndex) => (
+        {TUNING_WITH_OCTAVES.map((stringName, stringIndex) => (
           <div key={stringIndex} className="string">
             {Array.from(Array(NUM_FRETS + 1).keys()).map(fret => {
-              const note = getNote(5 - stringIndex, fret);
-              const isNoteInScale = notesToDisplay.includes(note);
-              const isRoot = isNoteInScale && note === rootNoteName;
+              const noteWithOctave = getNoteWithOctave(stringIndex, fret);
+              const noteName = getNoteName(noteWithOctave);
+              const isNoteInScale = notesToDisplay.includes(noteName);
+              const isRoot = isNoteInScale && noteName === rootNoteName;
 
               return (
-                <div key={fret} className="fret">
+                <div key={fret} className="fret" onClick={() => isNoteInScale && handleNoteClick(noteWithOctave)}>
                   {isNoteInScale && (
                     <div className={`note ${isRoot ? 'root' : ''}`}>
-                      {note}
+                      {noteName}
                     </div>
                   )}
-                  {stringIndex === 5 && fretLabelPoints.includes(fret) && (
+                  {stringIndex === 0 && fretLabelPoints.includes(fret) && (
                     <div className="fret-label">{fret}</div>
                   )}
                 </div>

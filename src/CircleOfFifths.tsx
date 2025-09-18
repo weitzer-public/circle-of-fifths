@@ -2,6 +2,7 @@ import React from 'react';
 import { circleOfFifthsKeys, keyData } from './data';
 import { Selection } from './App';
 import './CircleOfFifths.css';
+import { playNote } from './audio';
 
 interface CircleOfFifthsProps {
   onKeySelect: (key: string, type: 'major' | 'minor') => void;
@@ -43,6 +44,19 @@ const CircleOfFifths: React.FC<CircleOfFifthsProps> = ({ onKeySelect, selection 
     ].join(' ');
   };
 
+  const handleKeySelection = (key: string, type: 'major' | 'minor') => {
+    onKeySelect(key, type);
+    if (type === 'major') {
+      playNote(`${key}3`);
+    } else {
+      const minorKeyName = keyData[key].minor;
+      const rootNote = minorKeyName.length > 1 && (minorKeyName[1] === '#' || minorKeyName[1] === 'b')
+        ? minorKeyName.substring(0, 2)
+        : minorKeyName.substring(0, 1);
+      playNote(`${rootNote}3`);
+    }
+  };
+
   return (
     <svg width={SVG_SIZE} height={SVG_SIZE} viewBox={`0 0 ${SVG_SIZE} ${SVG_SIZE}`}>
       <g>
@@ -56,7 +70,7 @@ const CircleOfFifths: React.FC<CircleOfFifthsProps> = ({ onKeySelect, selection 
           const isSelected = selection.key === key && selection.type === 'major';
 
           return (
-            <g key={`${key}-major`} onClick={() => onKeySelect(key, 'major')} className={`key-segment ${isSelected ? 'selected' : ''}`}>
+            <g key={`${key}-major`} onClick={() => handleKeySelection(key, 'major')} className={`key-segment ${isSelected ? 'selected' : ''}`}>
               <path d={pathData} />
               <text x={textCoords.x} y={textCoords.y} textAnchor="middle" dy="0.3em" className="major-key">
                 {keyData[key].major}
@@ -74,7 +88,7 @@ const CircleOfFifths: React.FC<CircleOfFifthsProps> = ({ onKeySelect, selection 
           const isSelected = selection.key === key && selection.type === 'minor';
 
           return (
-            <g key={`${key}-minor`} onClick={() => onKeySelect(key, 'minor')} className={`key-segment ${isSelected ? 'selected' : ''}`}>
+            <g key={`${key}-minor`} onClick={() => handleKeySelection(key, 'minor')} className={`key-segment ${isSelected ? 'selected' : ''}`}>
               <path d={pathData} />
               <text x={textCoords.x} y={textCoords.y} textAnchor="middle" dy="0.3em" className="minor-key">
                 {keyData[key].minor}

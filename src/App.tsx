@@ -6,6 +6,7 @@ import Fretboard from './Fretboard';
 import ChordDiagram from './ChordDiagram';
 import { keyData } from './data';
 import EnhancedUI from './EnhancedUI'; // Import the new component
+import { toggleMute, getIsMuted } from './audio';
 
 export type Selection = {
   key: string;
@@ -15,6 +16,7 @@ export type Selection = {
 function App() {
   const [selection, setSelection] = useState<Selection>({ key: 'C', type: 'major' });
   const [showEnhancedUI, setShowEnhancedUI] = useState(false); // State for the toggle
+  const [isMuted, setIsMuted] = useState(getIsMuted());
 
   const handleKeySelect = (key: string, type: 'major' | 'minor') => {
     setSelection({ key, type });
@@ -26,11 +28,18 @@ function App() {
     setShowEnhancedUI(!showEnhancedUI);
   };
 
+  const handleToggleMute = () => {
+    setIsMuted(toggleMute());
+  };
+
   return (
     <div>
       <div className="toggle-ui-container">
         <button className="btn btn-primary" onClick={toggleUI}>
           {showEnhancedUI ? 'Show Original UI' : 'Show Enhanced UI'}
+        </button>
+        <button className="btn btn-secondary ms-2" onClick={handleToggleMute}>
+          {isMuted ? 'Unmute' : 'Mute'}
         </button>
       </div>
 
