@@ -1,0 +1,37 @@
+body {
+    font-family: sans-serif;
+    background-color: #f0f0f0;
+    margin: 20px;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    grid-gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.component {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5em;
+    color: #555;
+    min-height: 200px;
+}
+
+.fretboard {
+    grid-column: 1 / -1; /* Span full width */
+}
+
+@media (max-width: 768px) {
+    .container {
+        grid-template-columns: 1fr;
+    }
+}

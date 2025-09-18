@@ -1,0 +1,67 @@
+:root {
+    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    
+    --light-bg: #f4f7f9;
+    --light-surface: #ffffff;
+    --light-text: #2c3e50;
+    --light-primary: #3498db;
+    --light-primary-text: #ffffff;
+    --light-border: #e0e0e0;
+}
+
+.enhanced-ui {
+    font-family: var(--font-sans);
+    padding: 10px;
+    background-color: var(--light-bg);
+    color: var(--light-text);
+}
+
+.enhanced-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-gap: 10px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.enhanced-component {
+    padding: 15px;
+    border-radius: 12px;
+    background-color: var(--light-surface);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    border: 1px solid var(--light-border);
+}
+
+.enhanced-component h4 {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+/* Grid layout for larger screens */
+@media (min-width: 992px) {
+    .enhanced-container {
+        grid-template-columns: 1fr 1fr;
+    }
+    .circle-of-fifths-grid {
+        grid-column: 1;
+        grid-row: 1 / 3;
+    }
+    .key-info-grid {
+        grid-column: 2;
+        grid-row: 1;
+    }
+    .fretboard-grid {
+        grid-column: 1 / 3;
+        grid-row: 3;
+    }
+    .chords-grid {
+        grid-column: 2;
+        grid-row: 2;
+    }
+}
+
+/* Interactive elements */
+.enhanced-component .note:hover {
+    transform: scale(1.1);
+    transition: transform 0.2s;
+}

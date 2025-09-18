@@ -2,3 +2,8 @@
 body {
   padding: 20px;
 }
+
+.toggle-ui-container {
+  padding: 1rem;
+  text-align: right;
+}
